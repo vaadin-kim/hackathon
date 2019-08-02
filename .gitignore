@@ -1,1 +1,8 @@
 .mvn/
+.classpath
+.project
+.settings/
+target/
+node_modules/
+webpack.config.js
+webpack.generated.js

@@ -3,6 +3,8 @@ package org.vaadin.hackme.spring;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -15,6 +17,8 @@ import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.hackme.spring.views.login.LoginView;
 import org.vaadin.hackme.spring.views.news.NewsView;
 import org.vaadin.hackme.spring.views.publishing.PublishingView;
 import org.vaadin.hackme.spring.views.usermanagement.UserManagementView;
@@ -28,10 +32,18 @@ import org.vaadin.hackme.spring.views.usermanagement.UserManagementView;
 public class MainView extends AppLayout {
 
     private final Tabs menu;
+    
+    @Autowired
+    private LoginView loginView;
 
     public MainView() {
         menu = createMenuTabs();
         addToNavbar(menu);
+    }
+    
+    @PostConstruct
+    private void setUp() {
+    	addToNavbar(loginView);
     }
 
     private static Tabs createMenuTabs() {
