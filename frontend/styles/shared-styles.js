@@ -11,7 +11,7 @@ html {
     [theme~="dark"] {
       --lumo-base-color: #383B40;
       --lumo-primary-color: #126a87;
-      --lumo-primary-text-color: #126a87;
+      --lumo-primary-text-color: #1abbf2;
     }
   </style>
 </custom-style>

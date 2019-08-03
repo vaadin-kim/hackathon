@@ -12,12 +12,15 @@ import org.vaadin.hackme.spring.views.publishing.PublishingView;
 import org.vaadin.hackme.spring.views.usermanagement.UserManagementView;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.TabVariant;
 import com.vaadin.flow.component.tabs.Tabs;
@@ -63,15 +66,19 @@ public class MainView extends AppLayout {
 
     private static Tab[] getAvailableTabs() {
         final List<Tab> tabs = new ArrayList<>();
-        tabs.add(createTab("News", NewsView.class));
-        tabs.add(createTab("Publishing", PublishingView.class));
-        tabs.add(createTab("User Management", UserManagementView.class));
+        tabs.add(createTab("News", VaadinIcon.COMMENTS, NewsView.class));
+        tabs.add(createTab("Publishing", VaadinIcon.EDIT, PublishingView.class));
+        tabs.add(createTab("Users", VaadinIcon.GROUP, UserManagementView.class));
         return tabs.toArray(new Tab[tabs.size()]);
     }
 
-    private static Tab createTab(String title,
+    private static Tab createTab(String title, VaadinIcon icon,
             Class<? extends Component> viewClass) {
-        return createTab(populateLink(new RouterLink(null, viewClass), title));
+    	RouterLink routerLink = new RouterLink(null, viewClass);
+    	routerLink.add(icon.create());
+    	routerLink.add(title);
+    	
+        return createTab(routerLink);
     }
 
     private static Tab createTab(Component content) {
@@ -80,10 +87,4 @@ public class MainView extends AppLayout {
         tab.add(content);
         return tab;
     }
-
-    private static <T extends HasComponents> T populateLink(T a, String title) {
-        a.add(title);
-        return a;
-    }
-
 }
