@@ -12,30 +12,16 @@ class NewsView extends PolymerElement {
           display: block;
           height: 100%;
         }
+        
+        .bulletin {
+        	background-color: #40444B;
+        	padding: 10px 20px;
+        	width: 100%;
+        	box-sizing: border-box;
+        }
       </style>
 
-      <vaadin-grid
-        id="list"
-        items="[[persons]]"
-        active-item="{{activeItem}}"
-        theme="no-border no-row-borders"
-        style="height:100%"
-      >
-        <vaadin-grid-column>
-          <template>
-            <div
-              style="border-radius:var(--lumo-border-radius);box-shadow: var(--lumo-box-shadow-s);padding:var(--lumo-space-s);"
-            >
-              <h3 id="order" style="margin:0">
-                [[item.lastname]], [[item.firstname]]
-              </h3>
-              <a theme="font-size-xs" id="date" href="mailto:[[item.email]]"
-                >[[item.email]]</a
-              >
-            </div>
-          </template>
-        </vaadin-grid-column>
-      </vaadin-grid>
+      <vaadin-vertical-layout id="layout"></vaadin-vertical-layout>    
     `;
   }
 
