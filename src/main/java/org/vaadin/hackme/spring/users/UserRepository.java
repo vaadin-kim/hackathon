@@ -16,8 +16,9 @@ public class UserRepository {
 	JdbcTemplate jdbcTemplate;
 
 	public User getUser(String username, String password) {
-		User user = this.jdbcTemplate.queryForObject("select id, username, password from users where username = '"
-				+ username + "' and password = '" + password + "'", new Object[] {}, new RowMapper<User>() {
+		String query = "select id, username, password from users where username = '"
+				+ username + "' and password = '" + password + "'";
+		User user = this.jdbcTemplate.queryForObject(query, new Object[] {}, new RowMapper<User>() {
 					public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 						User user = new User();
 						user.setId(rs.getLong("id"));
