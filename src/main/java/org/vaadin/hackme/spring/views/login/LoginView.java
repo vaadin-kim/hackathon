@@ -11,11 +11,11 @@ import org.vaadin.hackme.spring.users.UserRepository;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.dom.Element;
-import com.vaadin.flow.dom.ElementFactory;
 import com.vaadin.flow.spring.annotation.UIScope;
 
 @UIScope
@@ -50,9 +50,11 @@ public class LoginView extends HorizontalLayout implements ComponentEventListene
 			activeUser.setUser(user);
 		} catch (Exception e) {
 			password.clear();
-			Element label = ElementFactory.createLabel("Incorrect username or password");
-			getElement().removeAllChildren();
-			getElement().appendChild(label);
+			Notification notification = new Notification(
+			        "Invalid username or password", 3000, Position.TOP_END);
+			notification.open();
+			username.clear();
+			password.clear();
 		}
 	}
 
