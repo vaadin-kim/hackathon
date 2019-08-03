@@ -34,6 +34,11 @@ public class LoginView extends HorizontalLayout implements ComponentEventListene
 	
 	@PostConstruct
 	private void setUp() {
+		setMargin(true);
+		username.setPlaceholder("Username");
+		password.setPlaceholder("Password");
+		loginButton.setThemeName("primary");
+		
 		add(username, password, loginButton);
 		loginButton.addClickListener(this);
 	}
