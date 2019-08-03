@@ -5,10 +5,19 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.hackme.spring.views.login.LoginView;
+import org.vaadin.hackme.spring.views.news.NewsView;
+import org.vaadin.hackme.spring.views.publishing.PublishingView;
+import org.vaadin.hackme.spring.views.usermanagement.UserManagementView;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasComponents;
-import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.TabVariant;
 import com.vaadin.flow.component.tabs.Tabs;
@@ -16,12 +25,6 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.vaadin.hackme.spring.views.login.LoginView;
-import org.vaadin.hackme.spring.views.news.NewsView;
-import org.vaadin.hackme.spring.views.publishing.PublishingView;
-import org.vaadin.hackme.spring.views.usermanagement.UserManagementView;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -31,19 +34,24 @@ import org.vaadin.hackme.spring.views.usermanagement.UserManagementView;
 @Theme(value = Lumo.class, variant = Lumo.DARK)
 public class MainView extends AppLayout {
 
-    private final Tabs menu;
+	private final Tabs menu;
     
     @Autowired
     private LoginView loginView;
 
     public MainView() {
         menu = createMenuTabs();
-        addToNavbar(menu);
     }
     
     @PostConstruct
     private void setUp() {
-    	addToNavbar(loginView);
+    	HorizontalLayout topLayout = new HorizontalLayout();
+    	topLayout.setWidth("100%");
+    	topLayout.add(menu, loginView);
+    	topLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
+    	topLayout.setDefaultVerticalComponentAlignment(Alignment.END);
+    	topLayout.setFlexGrow(1, menu);
+    	addToNavbar(topLayout);
     }
 
     private static Tabs createMenuTabs() {
