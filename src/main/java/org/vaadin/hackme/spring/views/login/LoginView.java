@@ -48,6 +48,8 @@ public class LoginView extends HorizontalLayout implements ComponentEventListene
 		try {
 			User user = userRepository.getUser(username.getValue(), password.getValue());
 			activeUser.setUser(user);
+			username.clear();
+			password.clear();
 		} catch (Exception e) {
 			password.clear();
 			Notification notification = new Notification(

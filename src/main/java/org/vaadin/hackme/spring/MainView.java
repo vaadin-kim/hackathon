@@ -2,8 +2,6 @@ package org.vaadin.hackme.spring;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 
@@ -16,6 +14,7 @@ import org.vaadin.hackme.spring.views.usermanagement.UserManagementView;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -39,18 +38,20 @@ public class MainView extends AppLayout implements PropertyChangeListener {
 
 	@Autowired
 	private LoginView loginView;
-	
+
 	@Autowired
 	private ActiveUser activeUser;
 
 	private HorizontalLayout topLayout;
 
+	private Button logoutButton;
+
 	@PostConstruct
 	private void setUp() {
 		activeUser.addPropertyChangeListener(this);
-		
+
 		menu = createMenuTabs();
-		
+
 		topLayout = new HorizontalLayout();
 		topLayout.setHeight("70px");
 		topLayout.setWidth("100%");
@@ -82,12 +83,35 @@ public class MainView extends AppLayout implements PropertyChangeListener {
 		tab.add(content);
 		return tab;
 	}
-	
+
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		topLayout.remove(loginView);
-		
-		menu.add(createTab("Publishing", VaadinIcon.EDIT, PublishingView.class));
-		menu.add(createTab("Users", VaadinIcon.GROUP, UserManagementView.class));
+		if (evt.getNewValue() != null) {
+			topLayout.remove(loginView);
+
+			menu.add(createTab("Publishing", VaadinIcon.EDIT, PublishingView.class));
+			menu.add(createTab("Users", VaadinIcon.GROUP, UserManagementView.class));
+
+			if (logoutButton == null) {
+				logoutButton = new Button("Logout", event -> {
+					activeUser.logout();
+					getUI().get().navigate("");
+				});
+			}
+
+			// I'm lazy and adding a wrapper layout just to get the margins there for the
+			// logout button to be positioned correctly
+			HorizontalLayout dirtyHackLayout = new HorizontalLayout(logoutButton);
+			dirtyHackLayout.setMargin(true);
+			topLayout.add(dirtyHackLayout);
+		} else {
+			// Remove logout button
+			topLayout.remove(topLayout.getComponentAt(1));
+			topLayout.add(loginView);
+
+			// Remove publishing and users from navigation
+			menu.remove(menu.getComponentAt(2));
+			menu.remove(menu.getComponentAt(1));
+		}
 	}
 }
