@@ -19,6 +19,14 @@ public class ActiveUser {
 	public User getUser() {
 		return user;
 	}
+	
+	public boolean isLoggedIn() {
+		return user != null;
+	}
+	
+	public void logout() {
+		this.setUser(null);
+	}
 
 	public void setUser(User user) {
 		PropertyChangeEvent event = new PropertyChangeEvent(this, "user", this.user, user);
@@ -33,6 +41,13 @@ public class ActiveUser {
 	
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		this.listeneres.remove(listener);
+	}
+	
+	public boolean hasRole(Role role) {
+		if(!isLoggedIn()) 
+			return false;
+		
+		return getUser().getRoles().contains(role);
 	}
 
 }

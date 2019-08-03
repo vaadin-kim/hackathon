@@ -1,9 +1,13 @@
 package org.vaadin.hackme.spring.views.usermanagement;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.vaadin.hackme.spring.MainView;
 import org.vaadin.hackme.spring.backend.BackendService;
 import org.vaadin.hackme.spring.backend.Employee;
+import org.vaadin.hackme.spring.users.ActiveUser;
+import org.vaadin.hackme.spring.users.Role;
+import org.vaadin.hackme.spring.views.usermanagement.UserManagementView.UserManagementViewModel;
+
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -16,25 +20,27 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
-
-import org.vaadin.hackme.spring.MainView;
-import org.vaadin.hackme.spring.views.usermanagement.UserManagementView.UserManagementViewModel;
 
 @Route(value = "users", layout = MainView.class)
 @PageTitle("User Management")
 @JsModule("src/views/usermanagement/user-management-view.js")
 @Tag("user-management-view")
 public class UserManagementView extends PolymerTemplate<UserManagementViewModel> implements
-        AfterNavigationObserver {
+        AfterNavigationObserver, BeforeEnterObserver {
 
     public static interface UserManagementViewModel extends TemplateModel {
     }
 
     @Autowired
     private BackendService service;
+    
+    @Autowired
+    private ActiveUser activeUser;
 
     @Id
     private Grid<Employee> employees;
@@ -95,4 +101,11 @@ public class UserManagementView extends PolymerTemplate<UserManagementViewModel>
         // The password field isn't bound through the binder, so handle that
         password.setValue("");
     }
+    
+    @Override
+	public void beforeEnter(BeforeEnterEvent event) {
+		if(!activeUser.hasRole(Role.ADMIN)) {
+			event.forwardTo("");
+		}
+	}
 }
