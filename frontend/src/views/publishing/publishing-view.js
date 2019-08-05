@@ -23,44 +23,12 @@ class PublishingView extends PolymerElement {
       </style>
 
       <vaadin-split-layout style="width: 100%; height: 100%;">
-        <div style="flex-grow:1;width:100%;" id="wrapper">
-          <vaadin-grid style="height:100%" theme="no-border" id="employees">
+        <div style="flex-grow:2;width:100%;" id="wrapper">
+          <vaadin-grid style="height:100%" theme="no-border" id="news">
           </vaadin-grid>
         </div>
-        <div style="width:400px;padding:var(--lumo-space-l)">
-          <vaadin-form-layout>
-            <vaadin-form-item>
-              <label slot="label">First Name</label>
-              <vaadin-text-field
-                class="full-width"
-                value=""
-                id="firstname"
-              ></vaadin-text-field>
-            </vaadin-form-item>
-            <vaadin-form-item>
-              <label slot="label">Last Name</label>
-              <vaadin-text-field
-                class="full-width"
-                value=""
-                id="lastname"
-              ></vaadin-text-field>
-            </vaadin-form-item>
-            <vaadin-form-item>
-              <label slot="label">Email</label>
-              <vaadin-text-field
-                class="full-width"
-                value=""
-                id="email"
-              ></vaadin-text-field>
-            </vaadin-form-item>
-            <vaadin-form-item>
-              <label slot="label">Password</label>
-              <vaadin-password-field 
-                class="full-width"
-                id="password"
-                ></vaadin-password-field>
-            </vaadin-form-item>
-          </vaadin-form-layout>
+        <div style="flex-grow:1;width:100%;"adding:var(--lumo-space-l)">
+          <vaadin-rich-text-editor style="height: 500px;" id="article" class="full-width"></vaadin-rich-text-editor>
           <vaadin-horizontal-layout
             style="display:flex;flex-wrap:wrap-reverse;width:100%;justify-content:flex-end;"
             theme="spacing"
