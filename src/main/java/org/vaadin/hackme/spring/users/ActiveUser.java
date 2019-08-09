@@ -7,10 +7,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.vaadin.flow.spring.annotation.UIScope;
 import com.vaadin.flow.spring.annotation.VaadinSessionScope;
 
 @Component
-@VaadinSessionScope
+@UIScope
 public class ActiveUser {
     private User user;
     
