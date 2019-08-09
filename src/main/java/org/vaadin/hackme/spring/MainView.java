@@ -60,6 +60,7 @@ public class MainView extends AppLayout implements PropertyChangeListener {
 		topLayout.setDefaultVerticalComponentAlignment(Alignment.END);
 		topLayout.setFlexGrow(1, menu);
 		addToNavbar(topLayout);
+		System.out.println("[Adding] Top layout: " + System.identityHashCode(topLayout) + " Login layout: " + System.identityHashCode(loginView));
 	}
 
 	private static Tabs createMenuTabs() {
@@ -87,6 +88,7 @@ public class MainView extends AppLayout implements PropertyChangeListener {
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getNewValue() != null) {
+			System.out.println("[Removing] Top layout: " + System.identityHashCode(topLayout) + " Login layout: " + System.identityHashCode(loginView));
 			topLayout.remove(loginView);
 
 			menu.add(createTab("Publishing", VaadinIcon.EDIT, PublishingView.class));
