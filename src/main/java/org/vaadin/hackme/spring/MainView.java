@@ -98,6 +98,7 @@ public class MainView extends AppLayout implements PropertyChangeListener {
 				logoutButton = new Button("Logout", event -> {
 					activeUser.logout();
 					getUI().get().navigate("");
+					getUI().get().getSession().close();
 				});
 			}
 
