@@ -16,6 +16,7 @@ import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.spring.annotation.UIScope;
 
 @UIScope
@@ -50,6 +51,8 @@ public class LoginView extends HorizontalLayout implements ComponentEventListene
 			activeUser.setUser(user);
 			username.clear();
 			password.clear();
+			// Reinitialize session to prevent session fixation attacks
+			VaadinService.reinitializeSession(VaadinService.getCurrentRequest());
 		} catch (Exception e) {
 			password.clear();
 			Notification notification = new Notification(
