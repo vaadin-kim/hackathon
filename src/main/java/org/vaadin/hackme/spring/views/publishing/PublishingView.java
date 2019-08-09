@@ -16,7 +16,10 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.richtexteditor.RichTextEditor;
+import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -46,8 +49,7 @@ public class PublishingView extends PolymerTemplate<PublishingViewModel>
 	private Grid<NewsModel> news;
 
 	@Id
-	private RichTextEditor article;
-
+	private TextArea article;
 
 	@Id
 	private Button cancel;
@@ -55,6 +57,8 @@ public class PublishingView extends PolymerTemplate<PublishingViewModel>
 	private Button save;
 
 	private Binder<NewsModel> binder;
+
+	private NewsModel editItem;
 
 	public PublishingView() {
 		// Configure Grid
@@ -66,18 +70,23 @@ public class PublishingView extends PolymerTemplate<PublishingViewModel>
 		// Configure Form
 		binder = new Binder<>(NewsModel.class);
 
-		//binder.bind(article, "article");
+		binder.bind(article, "article");
 		// the grid valueChangeEvent will clear the form too
 		cancel.addClickListener(e -> news.asSingleSelect().clear());
 
 		save.addClickListener(e -> {
-			Notification.show("Not implemented");
+			try {
+				binder.writeBean(editItem);
+			} catch (ValidationException e1) {
+				e1.printStackTrace();
+			}
+			service.store(editItem);
+			news.asSingleSelect().clear();
 		});
 	}
 
 	@Override
 	public void afterNavigation(AfterNavigationEvent event) {
-
 		// Lazy init of the grid items, happens only when we are sure the view will be
 		// shown to the user
 		news.setItems(service.getNews());
@@ -85,8 +94,11 @@ public class PublishingView extends PolymerTemplate<PublishingViewModel>
 
 	private void populateForm(NewsModel value) {
 		// Value can be null as well, that clears the form
-		//binder.readBean(value);
-		article.getHtmlValue();
+		editItem = value;
+		binder.readBean(value);
+
+		save.setEnabled(value != null);
+		cancel.setEnabled(value != null);
 	}
 
 	@Override

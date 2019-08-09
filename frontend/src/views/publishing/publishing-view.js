@@ -21,6 +21,10 @@ class PublishingView extends PolymerElement {
           height: 100%;
         }
       </style>
+       <script src="https://cdn.tiny.cloud/1/z0nwvw4gz3dequvxnf86feh7i0xss1mkbveu68ujfjrid8ki/tinymce/5/tinymce.min.js"></script>
+  <script>
+  
+  </script>
 
       <vaadin-split-layout style="width: 100%; height: 100%;">
         <div style="flex-grow:2;width:100%;" id="wrapper">
@@ -28,7 +32,7 @@ class PublishingView extends PolymerElement {
           </vaadin-grid>
         </div>
         <div style="flex-grow:1;width:100%;"adding:var(--lumo-space-l)">
-          <vaadin-rich-text-editor style="height: 500px;" id="article" class="full-width"></vaadin-rich-text-editor>
+          <vaadin-text-area style="height: 500px;" id="article" class="full-width"></vaadin-text-area>
           <vaadin-horizontal-layout
             style="display:flex;flex-wrap:wrap-reverse;width:100%;justify-content:flex-end;"
             theme="spacing"
@@ -54,7 +58,7 @@ class PublishingView extends PolymerElement {
     return {
       // Declare your properties here.
     };
-  }
+  } 
 }
 
 customElements.define(PublishingView.is, PublishingView);

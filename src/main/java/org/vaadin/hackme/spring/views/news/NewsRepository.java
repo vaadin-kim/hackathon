@@ -17,4 +17,26 @@ public class NewsRepository {
 		return news;
 	}
 
+	public void store(NewsModel news) {
+		if (news == null)
+			return;
+
+		if (news.getId() != 0) {
+			update(news);
+		} else {
+			insert(news);
+		}
+
+	}
+
+	private void insert(NewsModel news) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void update(NewsModel news) {
+		String query = "update news set article = ? where id = ?";
+		this.jdbcTemplate.update(query, new Object[]{news.getArticle(), news.getId()});
+	}
+
 }
