@@ -56,6 +56,9 @@ public class PublishingView extends PolymerTemplate<PublishingViewModel>
 	@Id
 	private Button save;
 
+	@Id("create-new")
+	private Button createNew;
+
 	private Binder<NewsModel> binder;
 
 	private NewsModel editItem;
@@ -80,8 +83,19 @@ public class PublishingView extends PolymerTemplate<PublishingViewModel>
 			} catch (ValidationException e1) {
 				e1.printStackTrace();
 			}
-			service.store(editItem);
-			news.asSingleSelect().clear();
+			if(editItem.getId() == null) {
+				service.store(editItem);
+				news.setItems(service.getNews());
+				populateForm(null);
+			} else {
+				service.store(editItem);
+				news.asSingleSelect().clear();
+			}
+		});
+
+		createNew.addClickListener(e -> {
+			NewsModel model = new NewsModel();
+			populateForm(model);
 		});
 	}
 
@@ -90,15 +104,21 @@ public class PublishingView extends PolymerTemplate<PublishingViewModel>
 		// Lazy init of the grid items, happens only when we are sure the view will be
 		// shown to the user
 		news.setItems(service.getNews());
+
+		article.setEnabled(false);
+		save.setEnabled(false);
+		cancel.setEnabled(false);
 	}
 
 	private void populateForm(NewsModel value) {
-		// Value can be null as well, that clears the form
 		editItem = value;
-		binder.readBean(value);
-
+		article.setEnabled(value != null);
 		save.setEnabled(value != null);
 		cancel.setEnabled(value != null);
+		createNew.setEnabled(value == null);
+
+		// Value can be null as well, that clears the form
+		binder.readBean(value);
 	}
 
 	@Override

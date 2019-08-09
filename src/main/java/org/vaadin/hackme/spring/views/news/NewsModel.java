@@ -2,10 +2,10 @@ package org.vaadin.hackme.spring.views.news;
 
 public class NewsModel {
 
-	private int id;
+	private Integer id;
 	private String article;
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 

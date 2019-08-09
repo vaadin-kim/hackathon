@@ -1,9 +1,12 @@
 package org.vaadin.hackme.spring.views.news;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,7 +24,7 @@ public class NewsRepository {
 		if (news == null)
 			return;
 
-		if (news.getId() != 0) {
+		if (news.getId() != null) {
 			update(news);
 		} else {
 			insert(news);
@@ -30,13 +33,13 @@ public class NewsRepository {
 	}
 
 	private void insert(NewsModel news) {
-		// TODO Auto-generated method stub
-
+		String query = "insert into news (article) values (?)";
+		this.jdbcTemplate.update(query, new Object[] { news.getArticle()});
 	}
 
 	private void update(NewsModel news) {
 		String query = "update news set article = ? where id = ?";
-		this.jdbcTemplate.update(query, new Object[]{news.getArticle(), news.getId()});
+		this.jdbcTemplate.update(query, new Object[] { news.getArticle(), news.getId() });
 	}
 
 }

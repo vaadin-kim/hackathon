@@ -32,17 +32,21 @@ class PublishingView extends PolymerElement {
           </vaadin-grid>
         </div>
         <div style="flex-grow:1;width:100%;"adding:var(--lumo-space-l)">
-          <vaadin-text-area style="height: 500px;" id="article" class="full-width"></vaadin-text-area>
+          <vaadin-text-area style="height: 500px; width:100%" id="article"></vaadin-text-area>
           <vaadin-horizontal-layout
-            style="display:flex;flex-wrap:wrap-reverse;width:100%;justify-content:flex-end;"
-            theme="spacing"
+            style="display:flex;flex-wrap:wrap-reverse;width:100%;justify-content:space-between;"
           >
-            <vaadin-button theme="tertiary" slot="" id="cancel">
-              Cancel
+          	<vaadin-button theme="secondary" slot="" id="create-new" style="">
+              Create new
             </vaadin-button>
-            <vaadin-button theme="primary" id="save">
-              Save
-            </vaadin-button>
+            <vaadin-horizontal-layout theme="spacing">
+            	<vaadin-button theme="tertiary" slot="" id="cancel">
+              		Cancel
+            	</vaadin-button>
+            	<vaadin-button theme="primary" id="save">
+              		Save
+            	</vaadin-button>
+            </vaadin-horizontal-layout>
           </vaadin-horizontal-layout>
         </div>
       </vaadin-split-layout>
